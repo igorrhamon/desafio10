@@ -2,12 +2,12 @@ package service.pagamento;
 
 import model.Pagamento;
 
-public class EfetuaPagamento implements Runnable{
+public class EfetuaPagamentoService implements Runnable{
 
     private Pagamento pagamento;
     
 
-    public EfetuaPagamento(Pagamento pagamento) {
+    public EfetuaPagamentoService(Pagamento pagamento) {
         this.pagamento = pagamento;
     }
 

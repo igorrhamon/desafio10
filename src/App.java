@@ -1,13 +1,13 @@
 import model.Estoque;
 import model.Pagamento;
-import service.estoque.BloqueiaEstoque;
+import service.estoque.BloqueiaEstoqueService;
 
 public class App {
     public static void main(String[] args) throws Exception {
         Estoque estoque = new Estoque();
         Pagamento pagamento = new Pagamento();
 
-        BloqueiaEstoque bloqueiaEstoque = new BloqueiaEstoque(pagamento, estoque);
+        BloqueiaEstoqueService bloqueiaEstoque = new BloqueiaEstoqueService(pagamento, estoque);
         Thread thread = new Thread(bloqueiaEstoque);
         thread.start();
 

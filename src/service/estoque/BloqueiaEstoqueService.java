@@ -2,16 +2,16 @@ package service.estoque;
 
 import model.Estoque;
 import model.Pagamento;
-import service.pagamento.EfetuaPagamento;
+import service.pagamento.EfetuaPagamentoService;
 
-public class BloqueiaEstoque implements Runnable {
+public class BloqueiaEstoqueService implements Runnable {
 
     
     private Thread pagamentoThread;
     private Pagamento pagamento;
     private Estoque estoque;
 
-    public BloqueiaEstoque(Pagamento pagamento, Estoque estoque) {
+    public BloqueiaEstoqueService(Pagamento pagamento, Estoque estoque) {
         this.pagamento = pagamento;
         this.estoque = estoque;
     }
@@ -33,7 +33,7 @@ public class BloqueiaEstoque implements Runnable {
         
         // Se estiver disponível, realiza o pagamento
         
-        this.pagamentoThread = new Thread( new EfetuaPagamento(this.pagamento));
+        this.pagamentoThread = new Thread( new EfetuaPagamentoService(this.pagamento));
         this.pagamentoThread.start();
 
         synchronized (this.pagamentoThread) {
