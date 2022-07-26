@@ -1,10 +1,13 @@
 package model;
-public class Pagamento implements Runnable {
+public class Pagamento  {
+    private boolean pagamentoRealizado;
 
-    @Override
-    public void run() {
-        System.out.println("Pagamento realizado");
-        
+    public boolean isPagamentoRealizado() {
+        return pagamentoRealizado;
+    }
+
+    public void setPagamentoRealizado(boolean pagamentoRealizado) {
+        this.pagamentoRealizado = pagamentoRealizado;
     }
 
         

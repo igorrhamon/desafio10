@@ -1,9 +1,22 @@
 package model;
-public class Estoque implements Runnable{
 
-    @Override
-    public void run() {
-        System.out.println("Estoque atualizado");        
+
+public class Estoque {
+
+    private boolean estoqueBloqueado = false;
+
+    public boolean isEstoqueBloqueado() {
+        return estoqueBloqueado;
     }
+
+    public Estoque() {
+    }
+
+    public void setEstoqueBloqueado(boolean b) {
+        this.estoqueBloqueado = b;
+    }
+
+
+    
     
 }

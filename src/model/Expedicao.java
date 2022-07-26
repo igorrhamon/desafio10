@@ -1,10 +1,15 @@
 package model;
 
-public class Expedicao implements Runnable{
+import java.util.HashMap;
+import java.util.Map;
 
-    @Override
-    public void run() {
-        System.out.println("Expedição realizada");
+public class Expedicao{
+
+    private Map<String, Integer> produtos = new HashMap<>();
+
+    public Expedicao(Map<String, Integer> produtos) {
+        this.produtos = produtos;
     }
+
     
 }
