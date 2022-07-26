@@ -30,22 +30,18 @@ public class App {
         pagamentoServiceThread.start();
         synchronized(pagamentoServiceThread) {
             pagamentoServiceThread.wait();
-            System.out.println("Pagamento efetuado");
             verificaEstoqueServiceThread.start();
             synchronized(verificaEstoqueServiceThread) {
                 verificaEstoqueServiceThread.wait();
-                System.out.println("Estoque verificado");
-                emiteNotaServiceThread.start();
                 bloqueiaEstoqueServiceThread.start();
+                synchronized(bloqueiaEstoqueServiceThread) {
+                    bloqueiaEstoqueServiceThread.wait();
+                }
+                emiteNotaServiceThread.start();
                 synchronized(emiteNotaServiceThread) {
                     emiteNotaServiceThread.wait();
-                    System.out.println("Nota fiscal emitida");
-                    synchronized(bloqueiaEstoqueServiceThread) {
-                        bloqueiaEstoqueServiceThread.wait();
-                        System.out.println("Estoque bloqueado");
-                    }
-                    System.out.println('\n' + "Compra efetuada com sucesso");
                 }
+                System.out.println('\n' + "Compra efetuada com sucesso");
             }
         }
 
