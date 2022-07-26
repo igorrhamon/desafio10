@@ -28,6 +28,11 @@ public class Estoque {
         return itens;
     }
 
+    public void diminuiEstoque(Produto produto, Integer integer) {
+        itens.put(produto, itens.get(produto) - integer);
+        
+    }
+
 
     
     

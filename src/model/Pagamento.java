@@ -24,5 +24,10 @@ public class Pagamento  {
         return compra.getValorTotal();
     }
 
+    @Override
+    public String toString() {
+        return "Pagamento [compra=" + compra + ", pagamentoRealizado=" + pagamentoRealizado + "]";
+    }
+
         
 }

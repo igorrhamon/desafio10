@@ -3,39 +3,35 @@ package service.estoque;
 import model.Compra;
 import model.Estoque;
 import model.Pagamento;
+import model.Produto;
 import service.pagamento.EfetuaPagamentoService;
 
 public class BloqueiaEstoqueService implements Runnable {
 
     
-    private Thread pagamentoThread;
     private Estoque estoque;
     private Compra compra;
     
     
     
-    public BloqueiaEstoqueService(Compra compra, Estoque estoque, Thread pagamentoThread) {
+    public BloqueiaEstoqueService(Compra compra, Estoque estoque) {
         this.compra = compra;
         this.estoque = estoque;
-        this.pagamentoThread = pagamentoThread;
     }
     @Override
     public void run() {
-        // Verifica se o produto está disponível no estoque
-        this.pagamentoThread.start();
-        synchronized(this.pagamentoThread){
-            try {
-                this.pagamentoThread.wait();
-                System.out.println("Estoque Bloqueado");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        
+        
+        synchronized(this){
+        for(Produto produto : compra.getProdutos().keySet()) {
+            estoque.getItens().put(produto, estoque.getItens().get(produto) - compra.getProdutos().get(produto));
         }
+        System.out.println("Estoque bloqueado");
+        notify();
+        }
+
+
     
     }
-    public void executa(Estoque estoque) {
-        this.estoque = estoque;
-        Thread thread = new Thread(this);
-        thread.start();
-    }
+   
 }

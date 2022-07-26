@@ -6,23 +6,26 @@ import model.Compra;
 import model.Estoque;
 import model.Produto;
 
-public class VerificaEstoqueService {
+public class VerificaEstoqueService implements Runnable {
     private Compra compra;
     private Estoque estoque;
+    private Thread emiteNotaThread;
 
     public VerificaEstoqueService(Compra compra, Estoque estoque) {
+        if(compra == null || estoque == null) {
+            throw new IllegalArgumentException("Compra e Estoque não podem ser nulos");
+        }
         this.compra = compra;
         this.estoque = estoque;
     }
 
-    public void executa() {
-        // Verifica se o produto está disponível no estoque
-        System.out.println("Verificando estoque");
-        if (this.isEstoqueDisponivel(compra.getProdutos())) {
-            System.out.println("Produto disponível no estoque");
+    public void executa() { 
+        if(this.isEstoqueDisponivel(compra.getProdutos())) {
+            System.out.println("Estoque disponível");
         } else {
-            System.out.println("Produto não disponível no estoque");
+            System.out.println("Estoque não disponível");
         }
+        
     }
 
     private boolean isEstoqueDisponivel(Map<Produto, Integer> produtos) {
@@ -32,6 +35,13 @@ public class VerificaEstoqueService {
             }
         }
         return true;
+    }
+
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+        this.executa();
+        
     }
     
 }

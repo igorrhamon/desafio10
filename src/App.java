@@ -3,10 +3,12 @@ import java.util.Map;
 
 import model.Compra;
 import model.Estoque;
+import model.NotaFiscal;
 import model.Pagamento;
 import model.Produto;
 import service.estoque.BloqueiaEstoqueService;
 import service.estoque.VerificaEstoqueService;
+import service.nota_fiscal.EmiteNotaService;
 import service.pagamento.EfetuaPagamentoService;
 
 public class App {
@@ -19,14 +21,34 @@ public class App {
         produtos.put(produto2, 2);
         Compra compra = new Compra(produtos);
         Pagamento pagamento = new Pagamento(compra);
-        VerificaEstoqueService verificaEstoque = new VerificaEstoqueService(compra, estoque);
+        NotaFiscal notaFiscal = new NotaFiscal(compra);
 
-        verificaEstoque.executa();
+        Thread verificaEstoqueServiceThread = new Thread( new VerificaEstoqueService(compra, estoque));
+        Thread pagamentoServiceThread = new Thread( new EfetuaPagamentoService(pagamento));
+        Thread emiteNotaServiceThread = new Thread( new EmiteNotaService(compra));
+        Thread bloqueiaEstoqueServiceThread = new Thread( new BloqueiaEstoqueService(compra, estoque));
+        pagamentoServiceThread.start();
+        synchronized(pagamentoServiceThread) {
+            pagamentoServiceThread.wait();
+            System.out.println("Pagamento efetuado");
+            verificaEstoqueServiceThread.start();
+            synchronized(verificaEstoqueServiceThread) {
+                verificaEstoqueServiceThread.wait();
+                System.out.println("Estoque verificado");
+                emiteNotaServiceThread.start();
+                bloqueiaEstoqueServiceThread.start();
+                synchronized(emiteNotaServiceThread) {
+                    emiteNotaServiceThread.wait();
+                    System.out.println("Nota fiscal emitida");
+                    synchronized(bloqueiaEstoqueServiceThread) {
+                        bloqueiaEstoqueServiceThread.wait();
+                        System.out.println("Estoque bloqueado");
+                    }
+                    System.out.println('\n' + "Compra efetuada com sucesso");
+                }
+            }
+        }
 
-        EfetuaPagamentoService efetuaPagamento = new EfetuaPagamentoService(pagamento);
-        BloqueiaEstoqueService bloqueiaEstoque = new BloqueiaEstoqueService(compra, estoque, new Thread(efetuaPagamento));
-        bloqueiaEstoque.executa(estoque);
 
-        System.out.println("Estoque: " + estoque.getItens());
     }
 }
