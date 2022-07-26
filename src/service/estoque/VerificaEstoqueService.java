@@ -9,8 +9,6 @@ import model.Produto;
 public class VerificaEstoqueService implements Runnable {
     private Compra compra;
     private Estoque estoque;
-    private Thread emiteNotaThread;
-
     public VerificaEstoqueService(Compra compra, Estoque estoque) {
         if(compra == null || estoque == null) {
             throw new IllegalArgumentException("Compra e Estoque não podem ser nulos");
@@ -19,7 +17,7 @@ public class VerificaEstoqueService implements Runnable {
         this.estoque = estoque;
     }
 
-    public void executa() { 
+    private void executa() { 
         if(this.isEstoqueDisponivel(compra.getProdutos())) {
             System.out.println("Estoque disponível");
         } else {
@@ -39,7 +37,6 @@ public class VerificaEstoqueService implements Runnable {
 
     @Override
     public void run() {
-        // TODO Auto-generated method stub
         this.executa();
         
     }

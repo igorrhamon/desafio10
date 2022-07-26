@@ -2,16 +2,16 @@ package service.transporte;
 
 import model.Compra;
 
-public class enviarParaTransporte  implements Runnable {
+public class EnviarParaTransporte  implements Runnable {
     private Compra compra;
 
-    public enviarParaTransporte(Compra compra) {
+    public EnviarParaTransporte(Compra compra) {
         this.compra = compra;
     }
 
     @Override
     public void run() {
-        // TODO Auto-generated method stub
+        System.out.println("Compra enviada para o transporte");
         
     }
 

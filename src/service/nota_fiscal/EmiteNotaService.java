@@ -19,15 +19,16 @@ public class EmiteNotaService implements Runnable {
     @Override
     public void run() {
         synchronized(this){
-        NotaFiscal notaFiscal = new NotaFiscal(compra);
-        System.out.println("Nota Fiscal emitida com sucesso");
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        notify();
+            NotaFiscal notaFiscal = new NotaFiscal(compra);
+            System.out.println("Nota Fiscal emitida com sucesso. Total: " + notaFiscal.getTotal());
+            
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                
+                e.printStackTrace();
+            }
+            notify();
         }
         
     }

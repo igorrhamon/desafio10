@@ -1,7 +1,5 @@
 package model;
 
-import java.math.BigDecimal;
-
 public class Pagamento  {
     private boolean pagamentoRealizado;
     private Compra compra;

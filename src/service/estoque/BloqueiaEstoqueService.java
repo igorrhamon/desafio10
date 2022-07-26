@@ -2,9 +2,7 @@ package service.estoque;
 
 import model.Compra;
 import model.Estoque;
-import model.Pagamento;
 import model.Produto;
-import service.pagamento.EfetuaPagamentoService;
 
 public class BloqueiaEstoqueService implements Runnable {
 
