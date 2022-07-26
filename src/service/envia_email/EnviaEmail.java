@@ -14,24 +14,18 @@ public class EnviaEmail implements Runnable{
 
     @Override
     public void run() {
-        System.out.println("Email enviado com sucesso");
+        synchronized(this) {
+            try {
+                System.out.println("Enviando email...");
+                Thread.sleep(2000);
+                System.out.println("Email enviado com sucesso");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            notify();
+        }
         
     }
 
-    public Email getEmail() {
-        return email;
-    }
-
-    public void setEmail(Email email) {
-        this.email = email;
-    }
-
-    public Compra getCompra() {
-        return compra;
-    }
-
-    public void setCompra(Compra compra) {
-        this.compra = compra;
-    }
     
 }

@@ -20,5 +20,7 @@ Avisar a transportadora nao pode ocorrer antes de preparar o produto para expedi
 Nota fiscal deve ser emitida logo apos a verificação do estoque.
 Preparar o produto para expedição e avisar a transportadora deve ser iniciado logo apos o bloqueio no estoque.
 **UTILIZAR APENAS WAIT E NOTIFY PARA GARANTIR O SINCRONISMO**
- Estoque->  Pagamento-> NF -> Email
-                        Expedição -> Transportadora
+ Pagamento ->
+    Verificação do Estoque->  
+        NF -> Email
+        Bloqueio do Estoque-> Expedição -> Transportadora 

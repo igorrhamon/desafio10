@@ -37,8 +37,11 @@ public class VerificaEstoqueService implements Runnable {
 
     @Override
     public void run() {
-        this.executa();
-        
+
+        synchronized(this) {
+            this.executa();
+            notify();
+        }
     }
     
 }

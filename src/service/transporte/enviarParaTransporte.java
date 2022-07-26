@@ -11,8 +11,11 @@ public class EnviarParaTransporte  implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Compra enviada para o transporte");
-        
+        synchronized(this) {
+            System.out.println("Compra enviada para o transporte");
+            notify();
+        }
+                
     }
 
 

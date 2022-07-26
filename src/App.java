@@ -25,13 +25,13 @@ public class App {
         Compra compra = new Compra(produtos);
         Pagamento pagamento = new Pagamento(compra);
 
-        Thread verificaEstoqueServiceThread = new Thread( new VerificaEstoqueService(compra, estoque));
-        Thread pagamentoServiceThread = new Thread( new EfetuaPagamentoService(pagamento));
-        Thread emiteNotaServiceThread = new Thread( new EmiteNotaService(compra));
-        Thread bloqueiaEstoqueServiceThread = new Thread( new BloqueiaEstoqueService(compra, estoque));
-        Thread enviaEmailServiceThread = new Thread( new EnviaEmail(new Email("Corpo do E-mail"), compra));
-        Thread expedeProdutoServiceThread = new Thread( new ExpedeProduto(compra));
-        Thread enviaParaTransportadoraServiceThread = new Thread( new EnviarParaTransporte(compra));
+        final Thread verificaEstoqueServiceThread = new Thread( new VerificaEstoqueService(compra, estoque));
+        final Thread pagamentoServiceThread = new Thread( new EfetuaPagamentoService(pagamento));
+        final Thread emiteNotaServiceThread = new Thread( new EmiteNotaService(compra));
+        final Thread bloqueiaEstoqueServiceThread = new Thread( new BloqueiaEstoqueService(compra, estoque));
+        final Thread enviaEmailServiceThread = new Thread( new EnviaEmail(new Email("Corpo do E-mail"), compra));
+        final Thread expedeProdutoServiceThread = new Thread( new ExpedeProduto(compra));
+        final Thread enviaParaTransportadoraServiceThread = new Thread( new EnviarParaTransporte(compra));
 
         pagamentoServiceThread.start();
         synchronized(pagamentoServiceThread) {
@@ -40,23 +40,23 @@ public class App {
             synchronized(verificaEstoqueServiceThread) {
                 verificaEstoqueServiceThread.wait();
                 bloqueiaEstoqueServiceThread.start();
-                synchronized(bloqueiaEstoqueServiceThread) {
+                synchronized(bloqueiaEstoqueServiceThread){
                     bloqueiaEstoqueServiceThread.wait();
                     expedeProdutoServiceThread.start();
-                    emiteNotaServiceThread.start();
-                    synchronized(emiteNotaServiceThread) {
-                        emiteNotaServiceThread.wait();
-                        enviaEmailServiceThread.start();
-                    }
                     synchronized(expedeProdutoServiceThread){
                         expedeProdutoServiceThread.wait();
                         enviaParaTransportadoraServiceThread.start();
                     }
                 }
-                System.out.println('\n' + "Compra efetuada com sucesso");
+                emiteNotaServiceThread.start();
+                synchronized(emiteNotaServiceThread){
+                    emiteNotaServiceThread.wait();
+                    enviaEmailServiceThread.start();
+                }
+                
             }
         }
-
-
+        
+        
     }
 }

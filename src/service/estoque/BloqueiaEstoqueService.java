@@ -21,11 +21,11 @@ public class BloqueiaEstoqueService implements Runnable {
         
         
         synchronized(this){
-        for(Produto produto : compra.getProdutos().keySet()) {
-            estoque.getItens().put(produto, estoque.getItens().get(produto) - compra.getProdutos().get(produto));
-        }
-        System.out.println("Estoque bloqueado");
-        notify();
+            for(Produto produto : compra.getProdutos().keySet()) {
+                estoque.getItens().put(produto, estoque.getItens().get(produto) - compra.getProdutos().get(produto));
+            }
+            System.out.println("Estoque bloqueado");
+            notify();
         }
 
 
