@@ -2,3 +2,14 @@
 /bin
 bin/App.class
 /.bin
+src/model/Compra.class
+src/model/Estoque.class
+src/model/NotaFiscal.class
+src/model/Pagamento.class
+src/model/Produto.class
+src/service/estoque/BloqueiaEstoqueService.class
+src/service/estoque/VerificaEstoqueService.class
+src/service/nota_fiscal/EmiteNotaService.class
+src/service/pagamento/EfetuaPagamentoService.class
+src/App.class
+bin/App.class
