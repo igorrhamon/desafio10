@@ -1,18 +1,21 @@
 package model;
 
-import java.util.HashMap;
-import java.util.Map;
+public class NotaFiscal {
 
-public class NotaFiscal implements Runnable{
+    private Compra compra;
 
-    private Map<String, Integer> produtos = new HashMap<>();
-
-    public NotaFiscal(Map<String, Integer> produtos) {
-        this.produtos = produtos;
+    public NotaFiscal(Compra compra) {
+        this.compra = compra;
     }
-    @Override
-    public void run() {
-        System.out.println("Nota fiscal emitida");
+
+    public Compra getCompra() {
+        return compra;
     }
+
+    public void setCompra(Compra compra) {
+        this.compra = compra;
+    }
+
+    
     
 }

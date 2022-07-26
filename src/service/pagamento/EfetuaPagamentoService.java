@@ -16,7 +16,7 @@ public class EfetuaPagamentoService implements Runnable{
     public void run() {
         synchronized(this){
             try {
-                Thread.sleep(2000);
+                Thread.sleep(5000);
                 this.pagamento.setPagamentoRealizado(true);
                 System.out.println("Pagamento realizado");
             } catch (InterruptedException e) {

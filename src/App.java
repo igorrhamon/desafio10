@@ -1,19 +1,32 @@
+import java.util.HashMap;
+import java.util.Map;
+
+import model.Compra;
 import model.Estoque;
 import model.Pagamento;
+import model.Produto;
 import service.estoque.BloqueiaEstoqueService;
+import service.estoque.VerificaEstoqueService;
+import service.pagamento.EfetuaPagamentoService;
 
 public class App {
     public static void main(String[] args) throws Exception {
+        Produto produto1 = new Produto("Produto 1", 10.0);
+        Produto produto2 = new Produto("Produto 2", 20.0);
         Estoque estoque = new Estoque();
-        Pagamento pagamento = new Pagamento();
+        Map<Produto, Integer> produtos = new HashMap<>();
+        produtos.put(produto1, 1);
+        produtos.put(produto2, 2);
+        Compra compra = new Compra(produtos);
+        Pagamento pagamento = new Pagamento(compra);
+        VerificaEstoqueService verificaEstoque = new VerificaEstoqueService(compra, estoque);
 
-        BloqueiaEstoqueService bloqueiaEstoque = new BloqueiaEstoqueService(pagamento, estoque);
-        Thread thread = new Thread(bloqueiaEstoque);
-        thread.start();
+        verificaEstoque.executa();
 
-        Thread.sleep(5000);
+        EfetuaPagamentoService efetuaPagamento = new EfetuaPagamentoService(pagamento);
+        BloqueiaEstoqueService bloqueiaEstoque = new BloqueiaEstoqueService(compra, estoque, new Thread(efetuaPagamento));
+        bloqueiaEstoque.executa(estoque);
 
-        System.out.println("Estoque bloqueado: " + estoque.isEstoqueBloqueado());
-
+        System.out.println("Estoque: " + estoque.getItens());
     }
 }
